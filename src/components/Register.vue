@@ -30,7 +30,12 @@
         type="password"
         required
       ></v-text-field>
-
+      <v-select
+        v-model="role"
+        :items="roles"
+        label="Выберите роль"
+        required
+      ></v-select>
       <v-btn :disabled="!valid" color="primary" @click="registerUser">Зарегистрироваться</v-btn>
     </v-form>
   </v-container>
@@ -75,4 +80,5 @@ const registerUser = async () => {
     }
   }
 };
+
 </script>
