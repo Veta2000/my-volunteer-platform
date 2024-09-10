@@ -1,6 +1,6 @@
 import 'vuetify/styles';
 import { createVuetify } from 'vuetify';
-import { VApp, VAppBar, VMain, VContainer, VBtn, VForm, VTextField, VCard, VList, VListItem, VListItemContent, VListItemTitle, VListItemSubtitle, VListItemAction } from 'vuetify/components';
+import { VApp, VAppBar, VMain, VContainer, VBtn, VForm, VTextField, VCard, VList, VListItem,  VListItemTitle, VListItemSubtitle, VListItemAction } from 'vuetify/components';
 import { aliases, mdi } from 'vuetify/iconsets/mdi';
 
 export default createVuetify({
@@ -15,7 +15,6 @@ export default createVuetify({
     VCard,
     VList,
     VListItem,
-    VListItemContent,
     VListItemTitle,
     VListItemSubtitle,
     VListItemAction,

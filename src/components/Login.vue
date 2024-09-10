@@ -18,6 +18,7 @@
         ></v-text-field>
   
         <v-btn :disabled="!valid" color="primary" @click="loginUser">Войти</v-btn>
+        <v-btn to="/register">Зарегистрироваться</v-btn>
       </v-form>
     </v-container>
   </template>
