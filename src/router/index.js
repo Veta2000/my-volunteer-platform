@@ -20,7 +20,7 @@ const routes = [
       path: '/profile',
       name: 'UserProfile',
       component: () => import('../components/UserProfile.vue'), 
-      meta: { requiresAuth: true },
+      meta: { requiresAuth: true },      
     },
     {
       path: '/events',

@@ -8,13 +8,6 @@
         required
       ></v-text-field>
 
-      <v-select
-        v-model="role"
-        :items="roles"
-        label="Выберите роль"
-        required
-      ></v-select>
-
       <v-text-field
         v-model="email"
         :rules="emailRules"
@@ -30,13 +23,15 @@
         type="password"
         required
       ></v-text-field>
-      <v-select
-        v-model="role"
-        :items="roles"
-        label="Выберите роль"
-        required
-      ></v-select>
-      <v-btn :disabled="!valid" color="primary" @click="registerUser">Зарегистрироваться</v-btn>
+
+      <div class="register-buttons">
+        <v-btn :disabled="!valid" color="primary" @click="registerAsVolunteer">
+          Зарегистрироваться как волонтер
+        </v-btn>
+        <v-btn :disabled="!valid" color="primary" @click="registerAsOrganization">
+          Зарегистрироваться как организация
+        </v-btn>
+      </div>
     </v-form>
   </v-container>
 </template>
@@ -47,8 +42,6 @@ import { useUserStore } from '../stores/userStore';
 import { useRouter } from 'vue-router';
 
 const name = ref('');
-const role = ref(''); // перем для роли
-const roles = ['Организация', 'Волонтер']; 
 const email = ref('');
 const password = ref('');
 const valid = ref(false);
@@ -70,15 +63,26 @@ const passwordRules = [
   v => (v && v.length >= 6) || 'Пароль должен быть не менее 6 символов',
 ];
 
-const registerUser = async () => {
+// Регистрация как волонтер
+const registerAsVolunteer = async () => {
   if (valid.value) {
-    await userStore.register(name.value, email.value, password.value, role.value);
-    if (role.value === 'Организация') {
-      router.push('/organization-profile');
-    } else {
-      router.push('/user-profile');
-    }
+    await userStore.register(name.value, email.value, password.value, 'Волонтер');
+    router.push('/user-profile'); // Перенаправление на профиль волонтера
   }
 };
 
+// Регистрация как организация
+const registerAsOrganization = async () => {
+  if (valid.value) {
+    await userStore.register(name.value, email.value, password.value, 'Организация');
+    router.push('/organization-profile'); // Перенаправление на профиль организации
+  }
+};
 </script>
+
+<style scoped>
+.register-buttons {
+  display: flex;
+  gap: 20px;
+}
+</style>
