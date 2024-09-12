@@ -3,8 +3,8 @@
     <v-app-bar app color="primary">
       <v-toolbar-title>Платформа Волонтеров</v-toolbar-title>
       <v-btn to="/" text>Главная</v-btn>
-      <v-btn to="/events" text>Мероприятия</v-btn>
-      <v-btn to="/profile" text>Профиль</v-btn>
+      <v-btn to="/events">Мероприятия</v-btn>
+      <v-btn to="/user-profile">Профиль</v-btn>
       <v-btn v-if="!user" to="/login">Вход</v-btn>
       <v-btn v-if="user" @click="logout">Выйти</v-btn>
     </v-app-bar>
