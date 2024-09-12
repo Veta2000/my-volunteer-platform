@@ -19,6 +19,13 @@
 
       <v-btn :disabled="!valid" color="primary" @click="loginUser">Войти</v-btn>
       <v-btn to="/register">Зарегистрироваться</v-btn>
+      <v-alert
+        v-if="loginError"
+        type="error"
+        dismissible
+      >
+        {{ loginError }}
+      </v-alert>
     </v-form>
   </v-container>
 </template>
@@ -33,6 +40,7 @@ const password = ref('');
 const valid = ref(false);
 const userStore = useUserStore();
 const router = useRouter();
+const loginError = ref('');
 
 const emailRules = [
   v => !!v || 'Email обязателен',
@@ -45,13 +53,18 @@ const passwordRules = [
 
 const loginUser = async () => {
   if (valid.value) {
-    const success = await userStore.login(email.value, password.value);
-    if (success) {
+    loginError.value = '';
+
+    await userStore.login(email.value, password.value);
+
+      if (!!userStore.user) {
       if (userStore.user.role === 'Организация') {
-        router.push('/organization-profile');  
+        router.push({ name: 'OrganizationProfile' });
       } else {
-        router.push('/user-profile');
+        router.push({ name: 'UserProfile' });
       }
+    } else {
+          loginError.value = 'Не удалось войти.';
     }
   }
 };
