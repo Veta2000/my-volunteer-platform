@@ -3,19 +3,19 @@
     <h2>Профиль пользователя</h2>
     <p>Email: {{ user?.email }}</p>
 
-    <!-- Кнопка для создания мероприятия, если роль - Организация -->
+ 
     <v-btn v-if="user?.role === 'Организация'" color="primary" @click="createEvent">
       Создать мероприятие
     </v-btn>
 
-    <!-- Перечень ивентов -->
+   
     <v-list>
       <v-list-item v-for="(event, index) in events" :key="index">
         <v-list-item-content>
           <v-list-item-title>{{ event.name }}</v-list-item-title>
           <v-list-item-subtitle>{{ event.date }}</v-list-item-subtitle>
         </v-list-item-content>
-        <!-- Кнопка для генерации сертификата для конкретного ивента -->
+        
         <v-btn color="primary" @click="generateCertificate(event.name, event.date)">Сгенерировать сертификат</v-btn>
       </v-list-item>
     </v-list>
