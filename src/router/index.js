@@ -17,7 +17,7 @@ const routes = [
       component: () => import('../components/Register.vue'), 
     },
     {
-      path: '/profile',
+      path: '/user-profile',
       name: 'UserProfile',
       component: () => import('../components/UserProfile.vue'), 
       meta: { requiresAuth: true },      
@@ -39,15 +39,15 @@ const routes = [
       component: () => import('../components/EventForm.vue'), 
     },
     {
-      path: '/certificate',
-      name: 'Certificate',
-      component: () => import('../components/Certificate.vue'), 
-    },
-    {
       path: '/user-profile',
       name: 'UserProfile',
       component: () => import('../components/UserProfile.vue'),
       meta: { requiresAuth: true },
+    },
+    {
+      path: '/organization-profile',
+      name: 'OrganizationProfile',
+      component: () => import('../components/OrganizationProfile.vue'), 
     },
   ];
   

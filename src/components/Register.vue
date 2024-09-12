@@ -67,7 +67,7 @@ const passwordRules = [
 const registerAsVolunteer = async () => {
   if (valid.value) {
     await userStore.register(name.value, email.value, password.value, 'Волонтер');
-    router.push('/user-profile'); // Перенаправление на профиль волонтера
+    router.push('/user-profile'); 
   }
 };
 
@@ -75,7 +75,7 @@ const registerAsVolunteer = async () => {
 const registerAsOrganization = async () => {
   if (valid.value) {
     await userStore.register(name.value, email.value, password.value, 'Организация');
-    router.push('/organization-profile'); // Перенаправление на профиль организации
+    router.push('/organization-profile'); 
   }
 };
 </script>
