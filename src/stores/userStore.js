@@ -4,7 +4,7 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'fire
 
 export const useUserStore = defineStore('userStore', {
   state: () => ({
-    user: null, 
+    user: null,
   }),
   actions: {
     async register(name, email, password, role) {
@@ -13,7 +13,7 @@ export const useUserStore = defineStore('userStore', {
         this.user = {
           name,
           email: userCredential.user.email,
-          role, 
+          role,
         };
       } catch (error) {
         console.error("Ошибка при регистрации:", error.message);
@@ -25,7 +25,7 @@ export const useUserStore = defineStore('userStore', {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         this.user = {
           email: userCredential.user.email,
-          role: 'Волонтер', 
+          role: 'Волонтер',
         };
       } catch (error) {
         console.error("Ошибка при входе:", error.message);
@@ -41,5 +41,14 @@ export const useUserStore = defineStore('userStore', {
           console.error("Ошибка при выходе:", error.message);
         });
     },
+  },
+  persist: {
+    enabled: true,
+    strategies: [
+      {
+        key: 'userStore', 
+        storage: localStorage, 
+      },
+    ],
   },
 });
