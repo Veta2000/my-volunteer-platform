@@ -6,14 +6,13 @@
         <p class="mb-5">
           Добро пожаловать на платформу! Здесь вы можете найти интересные волонтерские мероприятия, присоединиться к ним и внести свой вклад в важные дела!
         </p>
-        <v-btn color="primary" @click="goToEvents">Перейти к мероприятиям</v-btn>
       </v-col>
     </v-row>
 
     <!-- Интеграция EventList с кастомным слотом -->
     <EventList>
       <template #event-details="{ event }">
-        <v-list-item-title>{{ event.title }} - Изменённое событие</v-list-item-title>
+        <v-list-item-title>{{ event.title }}</v-list-item-title>
         <v-list-item-subtitle>{{ event.date }} (дата)</v-list-item-subtitle>
       </template>
     </EventList>
