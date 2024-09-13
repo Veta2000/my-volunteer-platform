@@ -7,8 +7,7 @@
     <v-btn v-if="user?.role === 'Организация'" color="primary" @click="createEvent">
       Создать мероприятие
     </v-btn>
-
-   
+  
     <v-list>
       <v-list-item v-for="(event, index) in events" :key="index">
         <v-list-item-content>
