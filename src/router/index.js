@@ -1,10 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import Home from '../views/Home.vue';
+import { useUserStore } from '../stores/userStore.js';
+
 
 const routes = [
     {
       path: '/',
       name: 'Home',
-      component: () => import('../views/Home.vue'), 
+      component: Home, 
     },
     {
       path: '/login',
@@ -49,11 +52,28 @@ const routes = [
       name: 'OrganizationProfile',
       component: () => import('../components/OrganizationProfile.vue'), 
     },
+    {
+      path: '/:pathMatch(.*)*', // This will match all paths that don't match defined routes
+      name: 'NotFound',
+      component: () => import('../components/NotFound.vue'),
+    },    
   ];
   
   const router = createRouter({
     history: createWebHistory(),
     routes, 
   })
+
+ 
+ 
+
+  router.beforeEach((to, from, next) => {
+    const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+    if (requiresAuth && !useUserStore().user) {
+      next('/login');
+    } else {
+      next();
+    }
+  });
   
   export default router

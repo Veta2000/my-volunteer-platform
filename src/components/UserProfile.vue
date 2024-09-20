@@ -2,7 +2,6 @@
   <v-container>
     <h2>Профиль пользователя</h2>
     <p>Email: {{ user?.email }}</p>
-
  
     <v-btn v-if="user?.role === 'Организация'" color="primary" @click="createEvent">
       Создать мероприятие
@@ -24,7 +23,7 @@
 <script setup>
 import { ref } from 'vue';
 import { jsPDF } from 'jspdf';
-import { useUserStore } from '../stores/userStore';
+import { useUserStore } from '../stores/userStore.js';
 import { useRouter } from 'vue-router';
 
 const userStore = useUserStore();
@@ -38,19 +37,24 @@ const events = ref([
 ]);
 
 const generateCertificate = (eventName, eventDate) => {
+
   const doc = new jsPDF();
+
+
+
   
   doc.setFontSize(20);
-  doc.setFont("helvetica", "bold");
-  doc.text('СЕРТИФИКАТ', 105, 40, null, null, 'center');
+   doc.setFont("helvetica", "bold");
+   doc.text('СЕРТИФИКАТ', 105, 40, null, null, 'center');
 
-  doc.setFontSize(12);
-  doc.setFont("helvetica", "normal");
-  doc.text(`Подтверждаем, что`, 105, 60, null, null, 'center');
+   doc.setFontSize(12);
+   doc.setFont("helvetica", "normal");
+   doc.text(`Подтверждаем, что`, 105, 60, null, null, 'center');
 
-  doc.setFontSize(16);
-  doc.setFont("helvetica", "bold");
-  doc.text(user.value.name, 105, 80, null, null, 'center');
+   
+  //doc.setFontSize(16);
+ // doc.setFont("helvetica", "bold");
+ //doc.text(user.value.user.name, 105, 80, null, null, 'center');
 
   doc.setFontSize(12);
   doc.text(`успешно принял(а) участие в мероприятии`, 105, 100, null, null, 'center');
@@ -64,7 +68,7 @@ const generateCertificate = (eventName, eventDate) => {
   doc.text(`Подпись`, 20, 200);
   doc.text(`Печать`, 180, 200);
 
-  doc.save(`certificate_${eventName}.pdf`);
+doc.save(`certificate_${eventName}.pdf`);
 };
 
 // Функция для перехода на страницу создания мероприятия

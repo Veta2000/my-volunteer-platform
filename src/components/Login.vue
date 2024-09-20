@@ -33,7 +33,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useUserStore } from '../stores/userStore';
+import { useUserStore } from '../stores/userStore.js';
 
 const email = ref('');
 const password = ref('');
@@ -55,14 +55,17 @@ const loginUser = async () => {
   if (valid.value) {
     loginError.value = '';
 
-    await userStore.login(email.value, password.value);
+    const user = await userStore.login(email.value, password.value);
+    console.log(user)
 
-      if (!!userStore.user) {
-      if (userStore.user.role === 'Организация') {
+      if (user) {
+
+        if (user.role === 'Организация') {
         router.push({ name: 'OrganizationProfile' });
       } else {
         router.push({ name: 'UserProfile' });
       }
+
     } else {
           loginError.value = 'Не удалось войти.';
     }

@@ -5,8 +5,8 @@
       <v-btn to="/" text>Главная</v-btn>
       <v-btn to="/events">Мероприятия</v-btn>
       <v-btn to="/user-profile">Профиль</v-btn>
-      <v-btn v-if="!user" to="/login">Вход</v-btn>
-      <v-btn v-if="user" @click="logout">Выйти</v-btn>
+      <v-btn v-if="!userStore.user" to="/login">Вход</v-btn>
+      <v-btn v-if="userStore.user" @click="logout">Выйти</v-btn>
     </v-app-bar>
     <v-main>
       <router-view></router-view>
@@ -19,13 +19,13 @@ import { ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useUserStore } from './stores/userStore';
 
+
 const userStore = useUserStore();
-const user = ref(userStore.user);
 const router = useRouter();
 
 const logout = () => {
   userStore.logout();
-  router.push('/login');  // Перенаправление на страницу входа после выхода
+  router.push('/login');
 };
 
 </script>

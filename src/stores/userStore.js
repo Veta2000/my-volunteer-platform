@@ -27,8 +27,10 @@ export const useUserStore = defineStore('userStore', {
           email: userCredential.user.email,
           role: 'Волонтер',
         };
+        return this.user; // No error
       } catch (error) {
         console.error("Ошибка при входе:", error.message);
+        return error.message; // Return error to be displayed
       }
     },
 

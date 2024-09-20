@@ -9,7 +9,6 @@
       </v-col>
     </v-row>
 
-    <!-- Интеграция EventList с кастомным слотом -->
     <EventList>
       <template #event-details="{ event }">
         <v-list-item-title>{{ event.title }}</v-list-item-title>
