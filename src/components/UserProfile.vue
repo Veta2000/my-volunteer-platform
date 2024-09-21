@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h2>Профиль пользователя</h2>
+    <h2>Профиль {{ user?.role }}</h2>
     <p>Email: {{ user?.email }}</p>
  
     <v-btn v-if="user?.role === 'Организация'" color="primary" @click="createEvent">
@@ -14,7 +14,7 @@
           <v-list-item-subtitle>{{ event.date }}</v-list-item-subtitle>
         </v-list-item-content>
         
-        <v-btn color="primary" @click="generateCertificate(event.name, event.date)">Сгенерировать сертификат</v-btn>
+        <v-btn v-if="user?.role === 'Волонтер'"  color="primary" @click="generateCertificate(event.name, event.date)">Сгенерировать сертификат</v-btn>
       </v-list-item>
     </v-list>
   </v-container>
@@ -51,10 +51,6 @@ const generateCertificate = (eventName, eventDate) => {
    doc.setFont("helvetica", "normal");
    doc.text(`Подтверждаем, что`, 105, 60, null, null, 'center');
 
-   
-  //doc.setFontSize(16);
- // doc.setFont("helvetica", "bold");
- //doc.text(user.value.user.name, 105, 80, null, null, 'center');
 
   doc.setFontSize(12);
   doc.text(`успешно принял(а) участие в мероприятии`, 105, 100, null, null, 'center');
@@ -73,6 +69,6 @@ doc.save(`certificate_${eventName}.pdf`);
 
 // Функция для перехода на страницу создания мероприятия
 const createEvent = () => {
-  router.push('/events');
+  router.push('/event-form');
 };
 </script>

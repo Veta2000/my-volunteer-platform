@@ -25,10 +25,10 @@
       ></v-text-field>
 
       <div class="register-buttons">
-        <v-btn :disabled="!valid" color="primary" @click="registerAsVolunteer">
+        <v-btn :disabled="!valid" color="primary" @click="register('Волонтер')">
           Зарегистрироваться как волонтер
         </v-btn>
-        <v-btn :disabled="!valid" color="primary" @click="registerAsOrganization">
+        <v-btn :disabled="!valid" color="primary" @click="register('Организация')">
           Зарегистрироваться как организация
         </v-btn>
       </div>
@@ -63,21 +63,14 @@ const passwordRules = [
   v => (v && v.length >= 6) || 'Пароль должен быть не менее 6 символов',
 ];
 
-// Регистрация как волонтер
-const registerAsVolunteer = async () => {
+const register = async (role) => {
   if (valid.value) {
-    await userStore.register(name.value, email.value, password.value, 'Волонтер');
+    await userStore.register(name.value, email.value, password.value, role);
     router.push('/user-profile'); 
   }
 };
 
-// Регистрация как организация
-const registerAsOrganization = async () => {
-  if (valid.value) {
-    await userStore.register(name.value, email.value, password.value, 'Организация');
-    router.push('/organization-profile'); 
-  }
-};
+
 </script>
 
 <style scoped>

@@ -20,25 +20,28 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+import { supabaseInstance } from '../supabaseConfig';
+import { useEventStore } from '../stores/storeEvent.js';
 
 const events = ref([
-  { id: 1, title: 'Субботник в парке', date: '2024-09-01' },
-  { id: 2, title: 'Помощь приюту', date: '2024-09-15' }
 ]);
 
-// Вызов API для добавления данных мероприятий
-onMounted(() => {
-  axios.get('https://api.publicapis.org/entries')
-    .then(response => {
-      const apiEvents = response.data.entries.slice(0, 2).map((entry, index) => ({
-        id: events.value.length + index + 1, 
-        title: entry.API,
-        date: '2024-10-01'
-      }));
-      events.value = [...events.value, ...apiEvents]; 
-    })
-    .catch(error => {
-      console.error('Ошибка при загрузке мероприятий:', error);
-    });
+const eventStore = useEventStore();
+
+
+const getEvents = ( async() => {
+
+  const eventsList =  await eventStore.getEvents() 
+   
+  if (eventsList) {
+    events.value = eventsList;
+  } else {
+    console.error('Ошибка при загрузке мероприятий:', error);
+  }
+})
+
+ onMounted( async() => {
+  
+  await getEvents()
 });
 </script>

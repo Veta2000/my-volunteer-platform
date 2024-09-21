@@ -2,21 +2,40 @@
     <v-container>
       <h1>{{ event.title }}</h1>
       <p>{{ event.description }}</p>
+      <p>   {{ event.date }}</p>
       <v-btn color="primary">Присоединиться</v-btn>
     </v-container>
   </template>
   
   <script setup>
-  import { ref } from 'vue';
+  import { onMounted, ref } from 'vue';
   import { useRoute } from 'vue-router';
+  import { useEventStore } from '../stores/storeEvent.js';
   
   const route = useRoute();
   const eventId = route.params.id;
+  const eventStore = useEventStore();
+
+  const getEvent = ( async () => {
+    const eventNow = await eventStore.getEvent(eventId);
+    if (eventNow) {
+      event.value = eventNow;
+    }
+    else{
+      console.error('Ошибка при загрузке мероприятия:', error);
+    }
+    
+  })
   
+onMounted ( async()=>{
+  await getEvent()
+});
+
   const event = ref({
     id: eventId,
-    title: 'Субботник в парке',
-    description: 'Уборка и благоустройство парка',
+    title:'',
+    description: '',
+    date: '',
       });
   </script>
   

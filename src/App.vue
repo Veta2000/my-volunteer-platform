@@ -3,10 +3,10 @@
     <v-app-bar app color="primary">
       <v-toolbar-title>Платформа Волонтеров</v-toolbar-title>
       <v-btn to="/" text>Главная</v-btn>
-      <v-btn to="/events">Мероприятия</v-btn>
-      <v-btn to="/user-profile">Профиль</v-btn>
+      <v-btn v-if="userStore.user" to="/events">Мероприятия</v-btn>
+      <v-btn v-if="userStore.user" to="/user-profile">Профиль</v-btn>
       <v-btn v-if="!userStore.user" to="/login">Вход</v-btn>
-      <v-btn v-if="userStore.user" @click="logout">Выйти</v-btn>
+      <v-btn v-else  @click="logout">Выйти</v-btn>
     </v-app-bar>
     <v-main>
       <router-view></router-view>
@@ -17,7 +17,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { useUserStore } from './stores/userStore';
+import { useUserStore } from './stores/userStore.js';
 
 
 const userStore = useUserStore();

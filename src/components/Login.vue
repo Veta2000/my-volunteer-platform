@@ -59,12 +59,7 @@ const loginUser = async () => {
     console.log(user)
 
       if (user) {
-
-        if (user.role === 'Организация') {
-        router.push({ name: 'OrganizationProfile' });
-      } else {
         router.push({ name: 'UserProfile' });
-      }
 
     } else {
           loginError.value = 'Не удалось войти.';

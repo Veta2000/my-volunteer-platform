@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
-import { auth } from '../firebaseConfig';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+// import { auth } from '../firebaseConfig';
+// import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { supabaseInstance } from '../supabaseConfig.js';
 
 export const useUserStore = defineStore('userStore', {
   state: () => ({
@@ -9,10 +10,21 @@ export const useUserStore = defineStore('userStore', {
   actions: {
     async register(name, email, password, role) {
       try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const { data, error } = await supabaseInstance.auth.signUp(
+            {
+              email,
+              password,
+              options: {
+                data: {
+                  name,
+                  role,
+                }
+              }
+            }
+        )
         this.user = {
           name,
-          email: userCredential.user.email,
+          email,
           role,
         };
       } catch (error) {
@@ -22,26 +34,32 @@ export const useUserStore = defineStore('userStore', {
 
     async login(email, password) {
       try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        this.user = {
-          email: userCredential.user.email,
-          role: 'Волонтер',
-        };
-        return this.user; // No error
-      } catch (error) {
-        console.error("Ошибка при входе:", error.message);
-        return error.message; // Return error to be displayed
-      }
+        const { data, error } = await supabaseInstance.auth.signInWithPassword({
+            email,
+            password,
+        })
+
+        if (error){
+            throw error
+        } else {
+
+            const authUser = data.user.user_metadata
+            this.user = {
+                email: authUser.email,
+                role: authUser.role,
+                name: authUser.name
+            };
+            return this.user; // No error
+        }
+
+    } catch (error) {
+      console.error("Ошибка при входе:", error.message);
+      return null; // Return error to be displayed
+    }
     },
 
     logout() {
-      auth.signOut()
-        .then(() => {
-          this.user = null;
-        })
-        .catch((error) => {
-          console.error("Ошибка при выходе:", error.message);
-        });
+      this.user = null
     },
   },
   persist: {

@@ -29,31 +29,30 @@ const routes = [
       path: '/events',
       name: 'EventList',
       component: () => import('../components/EventList.vue'), 
+      meta: { requiresAuth: true },
     },
     {
       path: '/events/:id',
       name: 'EventDetail',
       component: () => import('../components/EventDetail.vue'), 
       props: true, 
+      meta: { requiresAuth: true },
     },
     {
       path: '/event-form',
       name: 'EventForm',
       component: () => import('../components/EventForm.vue'), 
+      meta: { requiresAuth: true },
     },
     {
       path: '/user-profile',
       name: 'UserProfile',
       component: () => import('../components/UserProfile.vue'),
       meta: { requiresAuth: true },
+      
     },
     {
-      path: '/organization-profile',
-      name: 'OrganizationProfile',
-      component: () => import('../components/OrganizationProfile.vue'), 
-    },
-    {
-      path: '/:pathMatch(.*)*', // This will match all paths that don't match defined routes
+      path: '/:pathMatch(.*)*',
       name: 'NotFound',
       component: () => import('../components/NotFound.vue'),
     },    
@@ -64,7 +63,6 @@ const routes = [
     routes, 
   })
 
- 
  
 
   router.beforeEach((to, from, next) => {

@@ -14,11 +14,11 @@
           type="date"
         ></v-text-field>
   
-        <v-textarea
+        <v-text-field
           v-model="event.description"
           label="Описание"
           :rules="[rules.required]"
-        ></v-textarea>
+        ></v-text-field>
   
         <v-btn :disabled="!isValid" type="submit">
           {{ isEditMode ? 'Обновить' : 'Создать' }} мероприятие
@@ -30,11 +30,14 @@
   <script setup>
   import { ref, onMounted } from 'vue';
   import { useRouter, useRoute } from 'vue-router';
-  import { doc, getDoc, setDoc, updateDoc, collection } from 'firebase/firestore';
-  import { db } from '../firebaseConfig';
+  import { useEventStore } from '../stores/storeEvent.js';
+  import { supabaseInstance } from '../supabaseConfig.js';
   
   const router = useRouter();
   const route = useRoute();
+  const eventStore = useEventStore ();
+
+  
   
   const event = ref({
     title: '',
@@ -48,27 +51,21 @@
     required: (value) => !!value || 'Обязательное поле.',
   };
   
+
+
   const handleSubmit = async () => {
-    if (isEditMode.value) {
-      await updateDoc(doc(db, 'events', route.params.id), event.value);
-    } else {
-      const eventRef = doc(collection(db, 'events'));
-      await setDoc(eventRef, event.value);
-    }
+
+    const createEvent = eventStore.createEvent( event.value.title, event.value.data, event.value.description);
+
+  if (createEvent) {
     router.push('/events');
-  };
-  
-  onMounted(async () => {
-    if (route.params.id) {
-      isEditMode.value = true;
-      const eventDoc = await getDoc(doc(db, 'events', route.params.id));
-      if (eventDoc.exists()) {
-        event.value = eventDoc.data();
-      }
-    }
-  });
-  </script>
-  
+  } else {
+    console.error('Ошибка при добавлении мероприятия:', error);
+  }
+};
+
+
+</script>
   <style scoped>
   
   </style>
