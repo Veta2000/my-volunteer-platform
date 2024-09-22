@@ -74,14 +74,16 @@ export const useEventStore = defineStore('eventStore', {
         }
       },
   
-      async fetchJoinedEvents() { 
+      async fetchJoinedEvents(userId) { 
         const { data, error } = await supabaseInstance
           .from('user_events')
-          .select('event_id')
-          .eq('user_id', this.user.id);
+          .select('events(*)')
+          .eq('user_id', userId);
   
         if (!error) {
-          this.joinedEvents = data.map(event => event.event_id);
+          this.joinedEvents = data;
+          return data
+          
         } else {
           console.error('Ошибка при получении мероприятий:', error.message);
         }

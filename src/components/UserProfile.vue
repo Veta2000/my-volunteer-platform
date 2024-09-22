@@ -8,10 +8,11 @@
     </v-btn>
   
     <v-list>
-      <v-list-item v-for="(eventId, index) in userStore.joinedEvents" :key="index">
+      <v-list-item v-for="event in userStore.joinedEvents" :key="event.events.id">
         <v-list-item-content>
-          <v-list-item-title>{{ event.name }}</v-list-item-title>
-          <v-list-item-subtitle>{{ event.date }}</v-list-item-subtitle>
+          <v-list-item-title>{{ event.events.name }}</v-list-item-title>
+          <v-list-item-subtitle>{{ event.events.date }}</v-list-item-subtitle>
+        
         </v-list-item-content>
         
         <v-btn v-if="user?.role === 'Волонтер'"  color="primary" @click="generateCertificate(event.name, event.date)">Сгенерировать сертификат</v-btn>
@@ -29,12 +30,13 @@ import { useEventStore } from '../stores/storeEvent.js';
 
 const eventStore = useEventStore();
 const userStore = useUserStore();
-const user = ref(userStore.user);
+const user = userStore.user;
 const router = useRouter();
 const joinedEvents = ref([]);
 
 onMounted(async () => {
-  await eventStore.fetchJoinedEvents();
+  await eventStore.fetchJoinedEvents(user.id) 
+  
   // await loadEventDetails(); 
 });
 
