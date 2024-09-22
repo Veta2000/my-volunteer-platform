@@ -11,10 +11,12 @@
   import { onMounted, ref } from 'vue';
   import { useRoute } from 'vue-router';
   import { useEventStore } from '../stores/storeEvent.js';
+  import { useUserStore } from '../stores/userStore.js';
   
   const route = useRoute();
   const eventId = route.params.id;
   const eventStore = useEventStore();
+  const userStore = useUserStore();
 
   const getEvent = ( async () => {
     const eventNow = await eventStore.getEvent(eventId);
@@ -37,5 +39,10 @@ onMounted ( async()=>{
     description: '',
     date: '',
       });
+
+      const joinEvent = async () => {
+  await userStore.joinEvent(eventId); 
+  console.log('Мероприятие добавлено в профиль.');
+};
   </script>
   

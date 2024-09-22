@@ -8,7 +8,7 @@
     </v-btn>
   
     <v-list>
-      <v-list-item v-for="(event, index) in events" :key="index">
+      <v-list-item v-for="(eventId, index) in userStore.joinedEvents" :key="index">
         <v-list-item-content>
           <v-list-item-title>{{ event.name }}</v-list-item-title>
           <v-list-item-subtitle>{{ event.date }}</v-list-item-subtitle>
@@ -25,21 +25,39 @@ import { ref } from 'vue';
 import { jsPDF } from 'jspdf';
 import { useUserStore } from '../stores/userStore.js';
 import { useRouter } from 'vue-router';
+import { useEventStore } from '../stores/storeEvent.js';
 
+const eventStore = useEventStore();
 const userStore = useUserStore();
 const user = ref(userStore.user);
 const router = useRouter();
+const joinedEvents = ref([]);
 
-const events = ref([
-  { name: 'Ивент 1', date: '2023-10-01' },
-  { name: 'Ивент 2', date: '2023-10-15' },
-  { name: 'Ивент 3', date: '2023-11-01' }
-]);
+onMounted(async () => {
+  await userStore.fetchJoinedEvents();
+  await loadEventDetails(); 
+});
+
+onMounted(async () => {
+  await userStore.fetchJoinedEvents(); 
+  await loadEventDetails();
+});
+
+const loadEventDetails = async () => {
+  joinedEvents.value = await Promise.all(
+    userStore.joinedEvents.map(async (eventId) => {
+      const event = await eventStore.getEvent(eventId); 
+      return {
+        title: event.title,
+        date: event.date,
+      };
+    })
+  );
+};
 
 const generateCertificate = (eventName, eventDate) => {
 
   const doc = new jsPDF();
-
 
 
   
