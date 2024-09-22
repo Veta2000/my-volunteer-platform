@@ -10,7 +10,6 @@
         <v-text-field
           v-model="event.date"
           label="Дата мероприятия"
-          :rules="[rules.required]"
           type="date"
         ></v-text-field>
   

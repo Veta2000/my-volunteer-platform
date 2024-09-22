@@ -15,7 +15,7 @@
         
         </v-list-item-content>
         
-        <v-btn v-if="user?.role === 'Волонтер'"  color="primary" @click="generateCertificate(event.title, event.date)">Сгенерировать сертификат</v-btn>
+        <v-btn v-if="user?.role === 'Волонтер'"  color="primary" @click="generateCertificate(event.events.title, event.events.date)">Сгенерировать сертификат</v-btn>
       </v-list-item>
     </v-list>
   </v-container>
