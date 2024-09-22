@@ -4,7 +4,7 @@ import { supabaseInstance } from '../supabaseConfig.js';
 export const useEventStore = defineStore('eventStore', {
   state: () => ({
     events: [],
-    joinEvent: [],
+    joinEvents: [],
   }),
   actions: {
       async  createEvent (title, date, description){
@@ -81,7 +81,7 @@ export const useEventStore = defineStore('eventStore', {
           .eq('user_id', userId);
   
         if (!error) {
-          this.joinedEvents = data;
+          this.joinEvents = data;
           return data
           
         } else {

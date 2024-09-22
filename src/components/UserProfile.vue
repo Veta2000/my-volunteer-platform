@@ -8,14 +8,14 @@
     </v-btn>
   
     <v-list>
-      <v-list-item v-for="event in userStore.joinedEvents" :key="event.events.id">
+      <v-list-item v-for="event in eventStore.joinEvents" :key="event.events.id">
         <v-list-item-content>
-          <v-list-item-title>{{ event.events.name }}</v-list-item-title>
+          <v-list-item-title>{{ event.events.title }}</v-list-item-title>
           <v-list-item-subtitle>{{ event.events.date }}</v-list-item-subtitle>
         
         </v-list-item-content>
         
-        <v-btn v-if="user?.role === 'Волонтер'"  color="primary" @click="generateCertificate(event.name, event.date)">Сгенерировать сертификат</v-btn>
+        <v-btn v-if="user?.role === 'Волонтер'"  color="primary" @click="generateCertificate(event.title, event.date)">Сгенерировать сертификат</v-btn>
       </v-list-item>
     </v-list>
   </v-container>
@@ -36,21 +36,9 @@ const joinedEvents = ref([]);
 
 onMounted(async () => {
   await eventStore.fetchJoinedEvents(user.id) 
-  
-  // await loadEventDetails(); 
 });
 
-// const loadEventDetails = async () => {
-//   joinedEvents.value = await Promise.all(
-//     userStore.joinedEvents.map(async (eventId) => {
-//       const event = await eventStore.getEvent(eventId); 
-//       return {
-//         title: event.title,
-//         date: event.date,
-//       };
-//     })
-//   );
-// };
+
 
 const generateCertificate = (eventName, eventDate) => {
 
@@ -72,9 +60,7 @@ const generateCertificate = (eventName, eventDate) => {
   doc.setFontSize(14);
   doc.text(eventName, 105, 120, null, null, 'center');
 
-  doc.setFontSize(12);
-  doc.text(`Дата мероприятия: ${eventDate}`, 105, 140, null, null, 'center');
-
+  
   doc.setFontSize(10);
   doc.text(`Подпись`, 20, 200);
   doc.text(`Печать`, 180, 200);
