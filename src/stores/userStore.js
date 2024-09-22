@@ -26,11 +26,19 @@ export const useUserStore = defineStore('userStore', {
           email,
           role,
         };
+        const userJson = JSON.stringify(this.user);
+        localStorage.setItem("user", userJson);
+        
       } catch (error) {
         console.error("Ошибка при регистрации:", error.message);
       }
     },
-
+    readUser() {
+      const userJson = localStorage.getItem("user");
+      if(userJson ) {
+          this.user = JSON.parse(userJson);
+      };
+    },
     async login(email, password) {
       try {
         const { data, error } = await supabaseInstance.auth.signInWithPassword({
@@ -47,6 +55,8 @@ export const useUserStore = defineStore('userStore', {
             role: authUser.role,
             name: authUser.name,
           };
+          const userJson = JSON.stringify(this.user);
+          localStorage.setItem("user", userJson);
           return this.user; 
         }
       } catch (error) {
@@ -55,31 +65,7 @@ export const useUserStore = defineStore('userStore', {
       }
     },
 
-    async joinEvent(eventId) { 
-      const { error } = await supabaseInstance
-        .from('user_events')
-        .insert({ user_id: this.user.id, event_id: eventId }); 
-
-      if (!error) {
-        this.joinedEvents.push(eventId);
-      } else {
-        console.error('Ошибка при добавлении мероприятия в профиль:', error.message);
-      }
-    },
-
-    async fetchJoinedEvents() { 
-      const { data, error } = await supabaseInstance
-        .from('user_events')
-        .select('event_id')
-        .eq('user_id', this.user.id);
-
-      if (!error) {
-        this.joinedEvents = data.map(event => event.event_id);
-      } else {
-        console.error('Ошибка при получении мероприятий:', error.message);
-      }
-    },
-
+  
     logout() {
       this.user = null;
     },

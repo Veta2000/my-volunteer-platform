@@ -15,13 +15,16 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useUserStore } from './stores/userStore.js';
 
 
 const userStore = useUserStore();
 const router = useRouter();
+  onMounted (() => {
+userStore.readUser()
+  });
 
 const logout = () => {
   userStore.logout();
