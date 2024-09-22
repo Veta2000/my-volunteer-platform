@@ -21,7 +21,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted} from 'vue';
 import { jsPDF } from 'jspdf';
 import { useUserStore } from '../stores/userStore.js';
 import { useRouter } from 'vue-router';
@@ -34,26 +34,21 @@ const router = useRouter();
 const joinedEvents = ref([]);
 
 onMounted(async () => {
-  await userStore.fetchJoinedEvents();
-  await loadEventDetails(); 
+  await eventStore.fetchJoinedEvents();
+  // await loadEventDetails(); 
 });
 
-onMounted(async () => {
-  await userStore.fetchJoinedEvents(); 
-  await loadEventDetails();
-});
-
-const loadEventDetails = async () => {
-  joinedEvents.value = await Promise.all(
-    userStore.joinedEvents.map(async (eventId) => {
-      const event = await eventStore.getEvent(eventId); 
-      return {
-        title: event.title,
-        date: event.date,
-      };
-    })
-  );
-};
+// const loadEventDetails = async () => {
+//   joinedEvents.value = await Promise.all(
+//     userStore.joinedEvents.map(async (eventId) => {
+//       const event = await eventStore.getEvent(eventId); 
+//       return {
+//         title: event.title,
+//         date: event.date,
+//       };
+//     })
+//   );
+// };
 
 const generateCertificate = (eventName, eventDate) => {
 

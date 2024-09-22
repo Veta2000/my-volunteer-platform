@@ -25,6 +25,7 @@ export const useUserStore = defineStore('userStore', {
           name,
           email,
           role,
+          id: data.id,
         };
         const userJson = JSON.stringify(this.user);
         localStorage.setItem("user", userJson);
@@ -54,6 +55,7 @@ export const useUserStore = defineStore('userStore', {
             email: authUser.email,
             role: authUser.role,
             name: authUser.name,
+            id: authUser.sub,
           };
           const userJson = JSON.stringify(this.user);
           localStorage.setItem("user", userJson);

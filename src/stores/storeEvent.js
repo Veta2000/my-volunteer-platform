@@ -68,7 +68,7 @@ export const useEventStore = defineStore('eventStore', {
           .insert({ user_id: userId, event_id: eventId }); 
   
         if (!error) {
-          this.joinedEvents.push(data);
+          return true;
         } else {
           console.error('Ошибка при добавлении мероприятия в профиль:', error.message);
         }
